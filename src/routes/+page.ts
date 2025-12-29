@@ -1,70 +1,11 @@
 import type { Pokemon } from '$lib/types';
-import { fetchPokemonDetail, toPokemon } from '$lib/api/api';
-import type { PaginationMeta, PokeAPIResponse } from '$lib/api/types';
-import {
-	API_BASE_URL,
-	DEFAULT_LIMIT,
-	DEFAULT_PAGE_NUMBER
-} from '$lib/api/constants';
-import { stringToInt } from '$lib/utils';
+import { fetchPokemonDetail, type PokeAPIResponse, toPokemon } from '$lib/api';
 
-interface LoadResponse {
-	pokemons: Pokemon[];
-	meta: PaginationMeta;
-}
+export const load = async ({ fetch, url }) => {
+	const limitparam = url.searchParams.get('limit');
+	const limit = limitparam ? Math.max(1, Number(limitparam ?? '10')) : 10;
 
-export const load = async ({ fetch, url }): Promise<LoadResponse> => {
-	const sp = url.searchParams;
-
-	const page = Math.max(
-		1,
-		stringToInt({ value: sp.get('p'), fallback: DEFAULT_PAGE_NUMBER })
-	);
-
-	const limit = DEFAULT_LIMIT;
-
-	const offset = (page - 1) * limit;
-
-	const query = url.searchParams.get('q')?.trim().toLowerCase() ?? '';
-
-	if (query) {
-		const res = await fetch(
-			`${API_BASE_URL}/pokemon/${encodeURIComponent(query)}`
-		);
-
-		if (!res.ok) {
-			return {
-				pokemons: [] as Pokemon[],
-				meta: {
-					page: 1,
-					totalPages: 1,
-					nextPage: null,
-					prevPage: null,
-					totalCount: 0
-				}
-			};
-		}
-
-		const json = await res.json();
-
-		return {
-			pokemons: [toPokemon(json)],
-			meta: {
-				page: 1,
-				totalPages: 1,
-				nextPage: null,
-				prevPage: null,
-				totalCount: json.count
-			}
-		};
-	}
-
-	const apiParams = new URLSearchParams({
-		limit: limit.toString(),
-		offset: offset.toString()
-	});
-
-	const res = await fetch(`${API_BASE_URL}/pokemon?${apiParams}`);
+	const res = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
 
 	if (!res.ok) {
 		throw new Error('Failed to fetch Pokémon list');
@@ -73,21 +14,8 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 	const json = (await res.json()) as PokeAPIResponse;
 
 	const pokemons: Pokemon[] = await Promise.all(
-		json.results.map(async (pokemon) =>
-			toPokemon(await fetchPokemonDetail(pokemon.url))
-		)
+		json.results.map(async (pokemon) => toPokemon(await fetchPokemonDetail(pokemon.url)))
 	);
 
-	const totalPages = Math.max(1, Math.ceil(json.count / limit));
-
-	return {
-		pokemons,
-		meta: {
-			page,
-			totalPages,
-			nextPage: page < totalPages ? page + 1 : null,
-			prevPage: page > 1 ? page - 1 : null,
-			totalCount: json.count
-		}
-	};
+	return { pokemons };
 };
