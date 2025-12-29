@@ -10,14 +10,15 @@
 <style>
 	.card {
 		display: flex;
-		width: 250px;
+		gap: 24px;
+		width: 100%;
 		min-height: 300px;
 		flex-direction: column;
 		align-content: start;
-		gap: 12px;
 		border: 1px solid rgba(0, 0, 0, 0.1);
 		border-radius: 8px;
 		padding: 1rem;
+		box-sizing: border-box;
 	}
 
 	.card-title {
