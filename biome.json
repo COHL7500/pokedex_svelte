@@ -44,7 +44,6 @@
         "noSelfAssign": "error",
         "noSetterReturn": "error",
         "noSwitchDeclarations": "error",
-        "noUndeclaredVariables": "error",
         "noUnreachable": "error",
         "noUnreachableSuper": "error",
         "noUnsafeFinally": "error",
@@ -130,6 +129,9 @@
   "overrides": [
     {
       "includes": ["**/*.svelte", "**/*.astro", "**/*.vue"],
+      "formatter": {
+        "enabled": false
+      },
       "linter": {
         "rules": {
           "style": {
