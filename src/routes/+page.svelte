@@ -1,9 +1,6 @@
 <script lang="ts">
-    import type {Pokemon} from "$lib/types";
-
-
-    const { data } = $props();
-    const pokemons = $state<Pokemon[]>(data.pokemons);
+    let { data } = $props();
+    const pokemons = $derived(data.pokemons);
 
     // $inspect(pokemons);
 </script>
