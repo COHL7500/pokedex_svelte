@@ -2,20 +2,16 @@
 	const { children } = $props();
 </script>
 
-<ul class="grid">
+<div class="grid">
 	{@render children()}
-</ul>
+</div>
 
 <style>
 	.grid {
 		display: grid;
 		gap: 16px;
-		justify-content: flex-start;
+		justify-content: center;
 		align-items: center;
-		grid-template-columns: repeat(auto-fit, minmax(220px, max-content));
-
-		margin: 0;
-		padding: 0;
-		list-style: none;
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 	}
 </style>
