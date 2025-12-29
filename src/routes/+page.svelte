@@ -1,15 +1,11 @@
 <script lang="ts">
-    type Pokemon = {
-      name: string;
-    };
+    import type {Pokemon} from "$lib/types";
 
-    const pokemons = $state<Pokemon[]>([]);
 
-    fetch("https://pokeapi.co/api/v2/pokemon/ditto")
-      .then((res) => res.json() as Promise<Pokemon>)
-      .then((pokemon) => {
-        pokemons.push({ name: pokemon.name });
-      });
+    const { data } = $props();
+    const pokemons = $state<Pokemon[]>(data.pokemons);
+
+    // $inspect(pokemons);
 </script>
 
 <h1>Pokémons</h1>
