@@ -1,13 +1,11 @@
 <script lang="ts">
-    let { data } = $props();
-    const pokemons = $derived(data.pokemons);
+	import PokemonCard from '$lib/ui/PokemonCard.svelte';
 
-    // $inspect(pokemons);
+	const { data } = $props();
+	const pokemons = $derived(data.pokemons);
 </script>
 
 <h1>Pokémons</h1>
-<ul>
-    {#each pokemons as pokemon}
-        <li>{pokemon.name}</li>
-    {/each}
-</ul>
+{#each pokemons as pokemon (pokemon.name)}
+	<PokemonCard {pokemon} />
+{/each}

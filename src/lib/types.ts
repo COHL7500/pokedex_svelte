@@ -1,3 +1,3 @@
 export type Pokemon = {
-  name: string;
+	name: string;
 };
