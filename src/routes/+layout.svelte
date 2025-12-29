@@ -1,5 +1,5 @@
 <script lang="ts">
-import favicon from "$lib/assets/favicon.svg";
+import favicon from "$lib/assets/favicon.png";
 
 let { children } = $props();
 </script>
@@ -14,6 +14,6 @@ let { children } = $props();
 
 <style>
 	:global(html, body) {
-		font-family: Exo, sans-serif;
+		font-family: Exo, Inter, sans-serif;
 	}
 </style>
