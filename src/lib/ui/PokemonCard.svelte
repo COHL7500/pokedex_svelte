@@ -35,6 +35,13 @@
 		padding: 1.5rem;
 		box-sizing: border-box;
 		overflow: hidden;
+
+		transition: 0.3s;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+
+		&:hover {
+			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+		}
 	}
 
 	img {
