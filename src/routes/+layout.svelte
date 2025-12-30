@@ -8,7 +8,11 @@
 	<title>Pokedex</title>
 	<meta name="description" content="A Pokedex built with Svelte/Sveltekit." />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+	<link
+		rel="preconnect"
+		href="https://fonts.gstatic.com"
+		crossorigin="anonymous"
+	/>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
