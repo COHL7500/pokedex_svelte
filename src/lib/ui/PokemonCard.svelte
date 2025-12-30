@@ -27,6 +27,7 @@
 		display: flex;
 		gap: 24px;
 		width: 100%;
+		max-width: 256px;
 		min-height: 300px;
 		flex-direction: column;
 		align-content: start;
@@ -45,8 +46,10 @@
 	}
 
 	img {
-		width: var(--img-size);
-		height: var(--img-size);
+		width: 100%;
+		height: 100%;
+		max-width: var(--img-size);
+		max-height: var(--img-size);
 		aspect-ratio: 1 / 1;
 		object-fit: contain;
 		align-self: center;

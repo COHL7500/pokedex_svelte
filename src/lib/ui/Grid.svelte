@@ -10,9 +10,9 @@
 	.grid {
 		display: grid;
 		gap: 16px;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
-		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(220px, max-content));
 
 		margin: 0;
 		padding: 0;
