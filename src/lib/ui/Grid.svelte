@@ -2,9 +2,9 @@
 	const { children } = $props();
 </script>
 
-<div class="grid">
+<ul class="grid">
 	{@render children()}
-</div>
+</ul>
 
 <style>
 	.grid {
@@ -13,5 +13,9 @@
 		justify-content: center;
 		align-items: center;
 		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+
+		margin: 0;
+		padding: 0;
+		list-style: none;
 	}
 </style>
