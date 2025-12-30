@@ -4,8 +4,8 @@
 	import SearchInput from '$lib/ui/SearchInput.svelte';
 
 	const { data } = $props();
-
 	let query = $state('');
+
 	const pokemons = $derived.by(() => {
 		if (!query) return data.pokemons;
 
