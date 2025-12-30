@@ -1,5 +1,6 @@
 import type { Pokemon } from '$lib/types';
-import { fetchPokemonDetail, type PokeAPIResponse, toPokemon } from '$lib/api';
+import { fetchPokemonDetail, toPokemon } from '$lib/api/api';
+import type { PokeAPIResponse } from '$lib/api/types';
 
 export const load = async ({ fetch, url }) => {
 	const limitparam = url.searchParams.get('limit');
