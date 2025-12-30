@@ -10,7 +10,9 @@
 	<h1>Pokémons</h1>
 	<Grid>
 		{#each pokemons as pokemon (pokemon.name)}
-			<PokemonCard {pokemon} />
+			<li>
+				<PokemonCard {pokemon} />
+			</li>
 		{/each}
 	</Grid>
 </div>
