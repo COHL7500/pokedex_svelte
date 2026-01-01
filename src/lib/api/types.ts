@@ -5,6 +5,9 @@ type PokemonListResult = {
 
 export type PokeAPIResponse = {
 	results: PokemonListResult[];
+	count: number;
+	next: string | null;
+	previous: string | null;
 };
 
 export type PokemonDetailResponse = PokemonListResult & {
