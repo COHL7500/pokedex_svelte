@@ -1,13 +1,31 @@
 import type { Pokemon } from '$lib/types';
 import { fetchPokemonDetail, toPokemon } from '$lib/api/api';
 import type { PokeAPIResponse } from '$lib/api/types';
-import { API_BASE_URL } from '$lib/api/constants';
+import {
+	API_BASE_URL,
+	DEFAULT_LIMIT,
+	DEFAULT_OFFSET
+} from '$lib/api/constants';
+import { stringToInt } from '$lib/utils';
 
 export const load = async ({ fetch, url }) => {
-	const limitparam = url.searchParams.get('limit');
-	const limit = limitparam ? Math.max(1, Number(limitparam ?? '10')) : 10;
+	const sp = url.searchParams;
 
-	const res = await fetch(`${API_BASE_URL}/pokemon?limit=${limit}`);
+	const limit = Math.max(
+		1,
+		stringToInt({ value: sp.get('limit'), fallback: DEFAULT_LIMIT })
+	);
+	const offset = Math.max(
+		1,
+		stringToInt({ value: sp.get('offset'), fallback: DEFAULT_OFFSET })
+	);
+
+	const apiParams = new URLSearchParams({
+		limit: limit.toString(),
+		offset: offset.toString()
+	});
+
+	const res = await fetch(`${API_BASE_URL}/pokemon?${apiParams}`);
 
 	if (!res.ok) {
 		throw new Error('Failed to fetch Pokémon list');
@@ -21,5 +39,14 @@ export const load = async ({ fetch, url }) => {
 		)
 	);
 
-	return { pokemons };
+	return {
+		pokemons,
+		meta: {
+			limit,
+			offset,
+			nextOffset: json.next ? offset + limit : null,
+			prevOffset: json.previous ? Math.max(0, offset - limit) : null,
+			totalCount: json.count
+		}
+	};
 };
