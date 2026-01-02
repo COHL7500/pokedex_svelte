@@ -43,13 +43,13 @@
 		>
 			Previous
 		</button>
-
 		<button
 			onclick={() => navigate(meta.nextOffset)}
 			disabled={meta.nextOffset == null}
 		>
 			Next
 		</button>
+		<span>Page {meta.currPage} of {meta.totalPages}</span>
 	</nav>
 
 	<div class="search-container">
