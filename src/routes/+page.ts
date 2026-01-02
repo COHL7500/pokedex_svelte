@@ -16,7 +16,7 @@ export const load = async ({ fetch, url }) => {
 		stringToInt({ value: sp.get('limit'), fallback: DEFAULT_LIMIT })
 	);
 	const offset = Math.max(
-		1,
+		0,
 		stringToInt({ value: sp.get('offset'), fallback: DEFAULT_OFFSET })
 	);
 
@@ -39,11 +39,16 @@ export const load = async ({ fetch, url }) => {
 		)
 	);
 
+	const totalPages = Math.ceil(json.count / limit);
+	const currPage = Math.floor(offset / limit) + 1;
+
 	return {
 		pokemons,
 		meta: {
 			limit,
 			offset,
+			currPage,
+			totalPages,
 			nextOffset: json.next ? offset + limit : null,
 			prevOffset: json.previous ? Math.max(0, offset - limit) : null,
 			totalCount: json.count
