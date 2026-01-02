@@ -4,62 +4,58 @@ import type { PokeAPIResponse } from '$lib/api/types';
 import {
 	API_BASE_URL,
 	DEFAULT_LIMIT,
-	DEFAULT_OFFSET
+	DEFAULT_PAGE_NUMBER
 } from '$lib/api/constants';
 import { stringToInt } from '$lib/utils';
 
 export const load = async ({ fetch, url }) => {
 	const sp = url.searchParams;
 
-	const limit = Math.max(
+	const page = Math.max(
 		1,
-		stringToInt({ value: sp.get('limit'), fallback: DEFAULT_LIMIT })
+		stringToInt({ value: sp.get('p'), fallback: DEFAULT_PAGE_NUMBER })
 	);
 
-	const offset = Math.max(
-		0,
-		stringToInt({ value: sp.get('offset'), fallback: DEFAULT_OFFSET })
-	);
+	const offset = (page - 1) * DEFAULT_LIMIT;
 
 	const query = url.searchParams.get('q')?.trim().toLowerCase() ?? '';
 
 	if (query) {
-		const res = await fetch(`${API_BASE_URL}/pokemon/${query}`);
-		const json = await res.json();
+		const res = await fetch(
+			`${API_BASE_URL}/pokemon/${encodeURIComponent(query)}`
+		);
 
 		if (!res.ok) {
 			return {
-				pokemons: [],
+				pokemons: [] as Pokemon[],
 				meta: {
-					limit: 1,
-					offset: 0,
-					currPage: 1,
+					DEFAULT_LIMIT,
+					page: 1,
 					totalPages: 1,
-					nextOffset: null,
-					prevOffset: null,
-					totalCount: json.count
+					nextPage: null,
+					prevPage: null,
+					totalCount: 0
 				}
 			};
 		}
 
-		const pokemon = toPokemon(json);
+		const json = await res.json();
 
 		return {
-			pokemons: [pokemon],
+			pokemons: [toPokemon(json)],
 			meta: {
-				limit: 1,
-				offset: 0,
-				currPage: 1,
+				DEFAULT_LIMIT,
+				page: 1,
 				totalPages: 1,
-				nextOffset: null,
-				prevOffset: null,
+				nextPage: null,
+				prevPage: null,
 				totalCount: json.count
 			}
 		};
 	}
 
 	const apiParams = new URLSearchParams({
-		limit: limit.toString(),
+		limit: DEFAULT_LIMIT.toString(),
 		offset: offset.toString()
 	});
 
@@ -77,18 +73,16 @@ export const load = async ({ fetch, url }) => {
 		)
 	);
 
-	const totalPages = Math.ceil(json.count / limit);
-	const currPage = Math.floor(offset / limit) + 1;
+	const totalPages = Math.max(1, Math.ceil(json.count / DEFAULT_LIMIT));
 
 	return {
 		pokemons,
 		meta: {
-			limit,
-			offset,
-			currPage,
+			DEFAULT_LIMIT,
+			page,
 			totalPages,
-			nextOffset: json.next ? offset + limit : null,
-			prevOffset: json.previous ? Math.max(0, offset - limit) : null,
+			nextPage: page < totalPages ? page + 1 : null,
+			prevPage: page > 1 ? page - 1 : null,
 			totalCount: json.count
 		}
 	};

@@ -17,7 +17,7 @@
 	const syncQueryURL = () => {
 		if (query) {
 			sp.set('q', query);
-			sp.set('offset', '0');
+			sp.set('p', '1');
 		} else {
 			sp.delete('q');
 		}
@@ -34,11 +34,10 @@
 		syncQueryURL();
 	});
 
-	const navigate = (offset: number | null) => {
-		if (offset == null) return;
+	const navigate = (nextPage: number | null) => {
+		if (nextPage == null) return;
 
-		sp.set('limit', String(meta.limit));
-		sp.set('offset', String(offset));
+		sp.set('p', String(nextPage));
 
 		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		goto(buildUrl(sp));
@@ -62,18 +61,18 @@
 
 	<nav class="pagination">
 		<button
-			disabled={meta.prevOffset == null}
-			onclick={() => navigate(meta.prevOffset)}
+			disabled={meta.prevPage == null}
+			onclick={() => navigate(meta.prevPage)}
 		>
 			Previous
 		</button>
 		<button
-			onclick={() => navigate(meta.nextOffset)}
-			disabled={meta.nextOffset == null}
+			disabled={meta.nextPage == null}
+			onclick={() => navigate(meta.nextPage)}
 		>
 			Next
 		</button>
-		<span>Page {meta.currPage} of {meta.totalPages}</span>
+		<span>Page {meta.page} of {meta.totalPages}</span>
 	</nav>
 </main>
 
