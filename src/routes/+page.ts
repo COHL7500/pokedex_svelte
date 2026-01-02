@@ -15,10 +15,48 @@ export const load = async ({ fetch, url }) => {
 		1,
 		stringToInt({ value: sp.get('limit'), fallback: DEFAULT_LIMIT })
 	);
+
 	const offset = Math.max(
 		0,
 		stringToInt({ value: sp.get('offset'), fallback: DEFAULT_OFFSET })
 	);
+
+	const query = url.searchParams.get('q')?.trim().toLowerCase() ?? '';
+
+	if (query) {
+		const res = await fetch(`${API_BASE_URL}/pokemon/${query}`);
+		const json = await res.json();
+
+		if (!res.ok) {
+			return {
+				pokemons: [],
+				meta: {
+					limit: 1,
+					offset: 0,
+					currPage: 1,
+					totalPages: 1,
+					nextOffset: null,
+					prevOffset: null,
+					totalCount: json.count
+				}
+			};
+		}
+
+		const pokemon = toPokemon(json);
+
+		return {
+			pokemons: [pokemon],
+			meta: {
+				limit: 1,
+				offset: 0,
+				currPage: 1,
+				totalPages: 1,
+				nextOffset: null,
+				prevOffset: null,
+				totalCount: json.count
+			}
+		};
+	}
 
 	const apiParams = new URLSearchParams({
 		limit: limit.toString(),
