@@ -3,6 +3,14 @@ type PokemonListResult = {
 	url: string;
 };
 
+export interface PaginationMeta {
+	page: number;
+	totalPages: number;
+	nextPage: number | null;
+	prevPage: number | null;
+	totalCount: number;
+}
+
 export type PokeAPIResponse = {
 	results: PokemonListResult[];
 	count: number;
