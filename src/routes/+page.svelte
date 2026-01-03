@@ -11,8 +11,10 @@
 	const sp = new SvelteURLSearchParams(page.url.searchParams);
 
 	let query = $state(sp.get('q') ?? '');
-
 	const meta = $derived(data.meta);
+	const pages = $derived(
+		Array.from({ length: meta.totalPages }, (_, i) => i + 1)
+	);
 
 	const syncQueryURL = () => {
 		if (query) {
@@ -22,7 +24,6 @@
 			sp.delete('q');
 		}
 
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		goto(buildUrl(sp), {
 			replaceState: true,
 			keepFocus: true,
@@ -39,10 +40,11 @@
 
 		sp.set('p', String(nextPage));
 
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
 		goto(buildUrl(sp));
 	};
 </script>
+
+<!-- TODO: Split code into components  -->
 
 <main class="container">
 	<h1>Pokémons</h1>
@@ -66,6 +68,18 @@
 		>
 			Previous
 		</button>
+		<div class="page-select">
+			<select
+				onchange={(e) =>
+					navigate(Number((e.target as HTMLSelectElement).value))}
+			>
+				{#each pages as page (page)}
+					<option value={page} selected={meta.page === page}>
+						Page {page}
+					</option>
+				{/each}
+			</select>
+		</div>
 		<button
 			disabled={meta.nextPage == null}
 			onclick={() => navigate(meta.nextPage)}

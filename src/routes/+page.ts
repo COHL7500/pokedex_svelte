@@ -16,7 +16,9 @@ export const load = async ({ fetch, url }) => {
 		stringToInt({ value: sp.get('p'), fallback: DEFAULT_PAGE_NUMBER })
 	);
 
-	const offset = (page - 1) * DEFAULT_LIMIT;
+	const limit = DEFAULT_LIMIT;
+
+	const offset = (page - 1) * limit;
 
 	const query = url.searchParams.get('q')?.trim().toLowerCase() ?? '';
 
@@ -29,7 +31,7 @@ export const load = async ({ fetch, url }) => {
 			return {
 				pokemons: [] as Pokemon[],
 				meta: {
-					DEFAULT_LIMIT,
+					limit,
 					page: 1,
 					totalPages: 1,
 					nextPage: null,
@@ -44,7 +46,7 @@ export const load = async ({ fetch, url }) => {
 		return {
 			pokemons: [toPokemon(json)],
 			meta: {
-				DEFAULT_LIMIT,
+				limit,
 				page: 1,
 				totalPages: 1,
 				nextPage: null,
@@ -55,7 +57,7 @@ export const load = async ({ fetch, url }) => {
 	}
 
 	const apiParams = new URLSearchParams({
-		limit: DEFAULT_LIMIT.toString(),
+		limit: limit.toString(),
 		offset: offset.toString()
 	});
 
@@ -73,12 +75,11 @@ export const load = async ({ fetch, url }) => {
 		)
 	);
 
-	const totalPages = Math.max(1, Math.ceil(json.count / DEFAULT_LIMIT));
+	const totalPages = Math.max(1, Math.ceil(json.count / limit));
 
 	return {
 		pokemons,
 		meta: {
-			DEFAULT_LIMIT,
 			page,
 			totalPages,
 			nextPage: page < totalPages ? page + 1 : null,
