@@ -2,6 +2,7 @@
 	import PokemonCard from '$lib/ui/PokemonCard.svelte';
 	import Grid from '$lib/ui/Grid.svelte';
 	import SearchInput from '$lib/ui/SearchInput.svelte';
+	import Pagination from '$lib/ui/Pagination.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
@@ -12,9 +13,6 @@
 
 	let query = $state(sp.get('q') ?? '');
 	const meta = $derived(data.meta);
-	const pages = $derived(
-		Array.from({ length: meta.totalPages }, (_, i) => i + 1)
-	);
 
 	const syncQueryURL = () => {
 		if (query) {
@@ -34,14 +32,6 @@
 	$effect(() => {
 		syncQueryURL();
 	});
-
-	const navigate = (nextPage: number | null) => {
-		if (nextPage == null) return;
-
-		sp.set('p', String(nextPage));
-
-		goto(buildUrl(sp));
-	};
 </script>
 
 <!-- TODO: Split code into components  -->
@@ -52,7 +42,7 @@
 	<div class="search-container">
 		<SearchInput bind:query></SearchInput>
 	</div>
-
+	<Pagination {meta} />
 	<Grid>
 		{#each data.pokemons as pokemon (pokemon.name)}
 			<li>
@@ -60,68 +50,12 @@
 			</li>
 		{/each}
 	</Grid>
-
-	<nav class="pagination">
-		<button
-			disabled={meta.prevPage == null}
-			onclick={() => navigate(meta.prevPage)}
-		>
-			Previous
-		</button>
-		<div class="page-select">
-			<select
-				onchange={(e) =>
-					navigate(Number((e.target as HTMLSelectElement).value))}
-			>
-				{#each pages as page (page)}
-					<option value={page} selected={meta.page === page}>
-						Page {page}
-					</option>
-				{/each}
-			</select>
-		</div>
-		<button
-			disabled={meta.nextPage == null}
-			onclick={() => navigate(meta.nextPage)}
-		>
-			Next
-		</button>
-		<span>Page {meta.page} of {meta.totalPages}</span>
-	</nav>
 </main>
 
 <style>
 	.search-container {
 		margin-bottom: 1rem;
 		max-width: 300px;
-	}
-
-	.pagination {
-		position: fixed;
-		left: 50%;
-		bottom: 1rem;
-		transform: translateX(-50%);
-		z-index: 1000;
-
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-
-		padding: 0.75rem 1rem;
-		border-radius: 10% / 70%;
-		background: rgba(255, 255, 255);
-		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-
-		button {
-			padding: 0.5rem 1rem;
-			font-size: 1rem;
-			border: none;
-			border-radius: 5px;
-			background-color: #02346f;
-			color: white;
-			cursor: pointer;
-			transition: background-color 0.3s ease;
-		}
 	}
 
 	.container {

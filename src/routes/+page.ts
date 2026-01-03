@@ -1,6 +1,6 @@
 import type { Pokemon } from '$lib/types';
 import { fetchPokemonDetail, toPokemon } from '$lib/api/api';
-import type { PokeAPIResponse } from '$lib/api/types';
+import type { PaginationMeta, PokeAPIResponse } from '$lib/api/types';
 import {
 	API_BASE_URL,
 	DEFAULT_LIMIT,
@@ -8,7 +8,12 @@ import {
 } from '$lib/api/constants';
 import { stringToInt } from '$lib/utils';
 
-export const load = async ({ fetch, url }) => {
+interface LoadResponse {
+	pokemons: Pokemon[];
+	meta: PaginationMeta;
+}
+
+export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 	const sp = url.searchParams;
 
 	const page = Math.max(
@@ -31,7 +36,6 @@ export const load = async ({ fetch, url }) => {
 			return {
 				pokemons: [] as Pokemon[],
 				meta: {
-					limit,
 					page: 1,
 					totalPages: 1,
 					nextPage: null,
@@ -46,7 +50,6 @@ export const load = async ({ fetch, url }) => {
 		return {
 			pokemons: [toPokemon(json)],
 			meta: {
-				limit,
 				page: 1,
 				totalPages: 1,
 				nextPage: null,
