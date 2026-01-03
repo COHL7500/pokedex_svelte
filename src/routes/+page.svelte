@@ -39,9 +39,13 @@
 <main class="container">
 	<h1>Pokémons</h1>
 
-	<div class="search-container">
-		<SearchInput bind:query></SearchInput>
+	<div class="toolbar">
+		<div class="search-container">
+			<SearchInput bind:query />
+		</div>
+		<p>Total count: {data.meta.totalCount}</p>
 	</div>
+
 	<Pagination {meta} />
 	<Grid>
 		{#each data.pokemons as pokemon (pokemon.name)}
@@ -53,9 +57,21 @@
 </main>
 
 <style>
-	.search-container {
-		margin-bottom: 1rem;
-		max-width: 300px;
+	.toolbar {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+		gap: 1rem;
+
+		@media (max-width: 640px) {
+			justify-content: center;
+			gap: 0;
+		}
+
+		.search-container {
+			margin-bottom: 1rem;
+			width: 300px;
+		}
 	}
 
 	.container {

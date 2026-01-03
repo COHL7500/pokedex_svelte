@@ -1,22 +1,25 @@
 <script lang="ts">
 	import type { Pokemon } from '$lib/types';
+	import { POKEDEX_DIGITS } from '$lib/api/constants';
 
 	interface PokemonCardProps {
 		pokemon: Pokemon;
 	}
 
 	const { pokemon }: PokemonCardProps = $props();
-	const name = $derived(pokemon.name);
-
-	const imgSize = '222px';
 </script>
 
 <article class="card">
-	<h3 class="card-title">{name}</h3>
+	<h3 class="card-title">
+		<span class="mono"
+			>{`#${String(pokemon.id).padStart(POKEDEX_DIGITS, '0')}`}</span
+		>
+		<span>{pokemon.name}</span>
+	</h3>
 	<img
-		style="--img-size: {imgSize}"
+		style="--img-size: 222px"
 		src={pokemon.imageUrl}
-		alt={name}
+		alt={pokemon.name}
 		loading="lazy"
 		decoding="async"
 	/>
@@ -57,6 +60,19 @@
 	}
 
 	.card-title {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		.mono {
+			font-size: 1rem;
+			color: gray;
+			font-family:
+				'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas,
+				'Liberation Mono', 'Courier New', monospace;
+			font-variant-numeric: tabular-nums;
+		}
+
 		margin: 0;
 		font-size: 1.25rem;
 		text-transform: capitalize;
