@@ -1,7 +1,7 @@
-type PokemonListResult = {
+interface PokemonListResult {
 	name: string;
 	url: string;
-};
+}
 
 export interface PaginationMeta {
 	page: number;
@@ -18,7 +18,7 @@ export type PokeAPIResponse = {
 	previous: string | null;
 };
 
-export type PokemonDetailResponse = PokemonListResult & {
+export interface PokemonDetailResponse extends PokemonListResult {
 	id: number;
 	sprites: {
 		other: {
@@ -27,4 +27,4 @@ export type PokemonDetailResponse = PokemonListResult & {
 			};
 		};
 	};
-};
+}
