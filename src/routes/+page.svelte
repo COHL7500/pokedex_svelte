@@ -2,20 +2,39 @@
 	import PokemonCard from '$lib/ui/PokemonCard.svelte';
 	import Grid from '$lib/ui/Grid.svelte';
 	import SearchInput from '$lib/ui/SearchInput.svelte';
+	import Pagination from '$lib/ui/Pagination.svelte';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+	import { SvelteURLSearchParams } from 'svelte/reactivity';
+	import { buildUrl } from '$lib/utils';
 
 	const { data } = $props();
-	let query = $state('');
+	const sp = new SvelteURLSearchParams(page.url.searchParams);
 
-	const pokemons = $derived.by(() => {
-		if (!query) return data.pokemons;
+	let query = $state(sp.get('q') ?? '');
+	const meta = $derived(data.meta);
 
-		const result = data.pokemons.filter((pokemon) =>
-			pokemon.name.toLowerCase().includes(query.toLowerCase())
-		);
+	const syncQueryURL = () => {
+		if (query) {
+			sp.set('q', query);
+			sp.set('p', '1');
+		} else {
+			sp.delete('q');
+		}
 
-		return result;
+		goto(buildUrl(sp), {
+			replaceState: true,
+			keepFocus: true,
+			noScroll: true
+		});
+	};
+
+	$effect(() => {
+		syncQueryURL();
 	});
 </script>
+
+<!-- TODO: Split code into components  -->
 
 <main class="container">
 	<h1>Pokémons</h1>
@@ -23,9 +42,9 @@
 	<div class="search-container">
 		<SearchInput bind:query></SearchInput>
 	</div>
-
+	<Pagination {meta} />
 	<Grid>
-		{#each pokemons as pokemon (pokemon.name)}
+		{#each data.pokemons as pokemon (pokemon.name)}
 			<li>
 				<PokemonCard {pokemon} />
 			</li>
