@@ -34,8 +34,6 @@
 	});
 </script>
 
-<!-- TODO: Split code into components  -->
-
 <main class="container">
 	<h1>Pokémons</h1>
 
@@ -75,6 +73,8 @@
 	}
 
 	.container {
+		max-width: 1280px;
+		margin: 0 auto;
 		padding: 2rem;
 	}
 </style>
