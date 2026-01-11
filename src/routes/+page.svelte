@@ -61,7 +61,7 @@
 		justify-content: flex-start;
 		gap: 1rem;
 
-		@media (max-width: 640px) {
+		@media (max-width: 16em) {
 			justify-content: center;
 			gap: 0;
 		}
@@ -73,7 +73,7 @@
 	}
 
 	.container {
-		max-width: 1280px;
+		max-width: var(--page-max-width);
 		margin: 0 auto;
 		padding: 2rem;
 	}

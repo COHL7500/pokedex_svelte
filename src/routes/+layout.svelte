@@ -19,6 +19,10 @@
 {@render children()}
 
 <style>
+	:global(:root) {
+		--page-max-width: 80em;
+	}
+
 	:global(html, body) {
 		font-family: Exo, Inter, sans-serif;
 	}
