@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Pokemon } from '$lib/types';
 	import { POKEDEX_DIGITS } from '$lib/api/constants';
+	import { getTypeColor } from '$lib/utils';
 
 	interface PokemonCardProps {
 		pokemon: Pokemon;
@@ -9,13 +10,37 @@
 	const { pokemon }: PokemonCardProps = $props();
 </script>
 
+<!-- TODO: Look into HTML-only image preloading
+<svelte:head>
+	<link
+		rel="preload"
+		as="image"
+		href={pokemon.imageUrl}
+		media="(min-width: 1024px)"
+	/>
+</svelte:head>
+-->
+
 <article class="card">
 	<h3 class="card-title">
-		<span class="mono"
-			>{`#${String(pokemon.id).padStart(POKEDEX_DIGITS, '0')}`}</span
-		>
+		<span class="mono">
+			{`#${String(pokemon.id).padStart(POKEDEX_DIGITS, '0')}`}
+		</span>
 		<span>{pokemon.name}</span>
 	</h3>
+
+	<div class="types">
+		{#each pokemon.types as type (type)}
+			<span
+				class="type-badge type-{type}"
+				style:order={type.slot}
+				style:background-color={getTypeColor(type.type.name)}
+			>
+				{type.type.name}
+			</span>
+		{/each}
+	</div>
+
 	<img
 		style="--img-size: 222px"
 		src={pokemon.imageUrl}
@@ -26,9 +51,24 @@
 </article>
 
 <style>
+	.types {
+		display: flex;
+		gap: 0.35rem;
+		flex-wrap: wrap;
+	}
+
+	.type-badge {
+		padding: 0.35rem 0.75rem;
+		border-radius: 12px;
+		font-size: 0.875rem;
+		color: white;
+		text-transform: capitalize;
+		background-color: gray;
+	}
+
 	.card {
 		display: flex;
-		gap: 24px;
+		gap: 1rem;
 		width: 100%;
 		max-width: 256px;
 		min-height: 300px;
