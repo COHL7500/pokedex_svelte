@@ -40,6 +40,9 @@
 			</span>
 		{/each}
 	</div>
+	<div class="stats">
+		<span>Total: {pokemon.total_base_stat}</span>
+	</div>
 
 	<img
 		style="--img-size: 222px"
@@ -55,17 +58,23 @@
 		display: flex;
 		gap: 0.35rem;
 		flex-wrap: wrap;
+
+		.type-badge {
+			padding: 0.35rem 0.75rem;
+			border-radius: 8px;
+			border: 1px solid rgba(0,0,0,.2);
+			text-shadow: 1px 1px 2px rgba(0,0,0,.5);
+			font-size: 0.875rem;
+			color: white;
+			text-transform: capitalize;
+			background-color: gray;
+		}
 	}
 
-	.type-badge {
-		padding: 0.35rem 0.75rem;
-		border-radius: 8px;
-		border: 1px solid rgba(0,0,0,.2);
-		text-shadow: 1px 1px 2px rgba(0,0,0,.5);
-		font-size: 0.875rem;
-		color: white;
-		text-transform: capitalize;
-		background-color: gray;
+	.stats {
+		font-size: 1rem;
+		font-weight: bold;
+		color: gray;
 	}
 
 	.card {

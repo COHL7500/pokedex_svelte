@@ -1,4 +1,5 @@
 import { POKEMON_TYPE_COLORS } from '$lib/api/constants';
+import type {PokemonStat, PokemonType} from "$lib/types";
 
 interface PokemonListResult {
 	name: string;
@@ -20,14 +21,6 @@ export type PokeAPIResponse = {
 	previous: string | null;
 };
 
-export interface PokemonType {
-	slot: number;
-	type: {
-		name: string;
-		url: string;
-	};
-}
-
 export type PokemonTypeName = keyof typeof POKEMON_TYPE_COLORS;
 
 export interface PokemonDetailResponse extends PokemonListResult {
@@ -40,4 +33,5 @@ export interface PokemonDetailResponse extends PokemonListResult {
 		};
 	};
 	types: PokemonType[];
+	stats: PokemonStat[];
 }

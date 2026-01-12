@@ -14,10 +14,14 @@ export const fetchPokemonDetail = async (detailUrl: string) => {
 };
 
 export const toPokemon = (detail: PokemonDetailResponse): Pokemon => {
-	return {
+	const result: Pokemon = {
 		id: detail.id,
 		name: detail.name,
 		imageUrl: detail.sprites.other['official-artwork'].front_default,
-		types: detail.types
-	};
+		types: detail.types,
+		total_base_stat: detail.stats.reduce((sum, stat) => sum + stat.base_stat, 0),
+		stats: detail.stats,
+	}
+
+	return result;
 };
