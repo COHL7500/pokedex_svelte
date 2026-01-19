@@ -34,14 +34,16 @@
 	});
 </script>
 
-<!-- TODO: Split code into components  -->
-
 <main class="container">
 	<h1>Pokémons</h1>
 
-	<div class="search-container">
-		<SearchInput bind:query></SearchInput>
+	<div class="toolbar">
+		<div class="search-container">
+			<SearchInput bind:query />
+		</div>
+		<p>Total count: {data.meta.totalCount}</p>
 	</div>
+
 	<Pagination {meta} />
 	<Grid>
 		{#each data.pokemons as pokemon (pokemon.name)}
@@ -53,12 +55,26 @@
 </main>
 
 <style>
-	.search-container {
-		margin-bottom: 1rem;
-		max-width: 300px;
+	.toolbar {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
+		gap: 1rem;
+
+		@media (max-width: 16em) {
+			justify-content: center;
+			gap: 0;
+		}
+
+		.search-container {
+			margin-bottom: 1rem;
+			width: 300px;
+		}
 	}
 
 	.container {
+		max-width: var(--page-max-width);
+		margin: 0 auto;
 		padding: 2rem;
 	}
 </style>

@@ -14,6 +14,10 @@
 		align-items: center;
 		grid-template-columns: repeat(auto-fit, minmax(220px, max-content));
 
+		@media (max-width: 35em) {
+			justify-content: center;
+		}
+
 		margin: 0;
 		padding: 0;
 		list-style: none;

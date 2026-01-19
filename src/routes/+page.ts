@@ -47,8 +47,10 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 
 		const json = await res.json();
 
+		const pokemons = [toPokemon(json)];
+
 		return {
-			pokemons: [toPokemon(json)],
+			pokemons: pokemons,
 			meta: {
 				page: 1,
 				totalPages: 1,
@@ -74,7 +76,7 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 
 	const pokemons: Pokemon[] = await Promise.all(
 		json.results.map(async (pokemon) =>
-			toPokemon(await fetchPokemonDetail(pokemon.url))
+			toPokemon(await fetchPokemonDetail({ detailUrl: pokemon.url, fetchFn: fetch }))
 		)
 	);
 

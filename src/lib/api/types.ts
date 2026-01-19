@@ -1,7 +1,12 @@
+import { POKEMON_TYPE_COLORS } from '$lib/api/constants';
+import type {PokemonStat, PokemonType} from "$lib/types";
+
 interface PokemonListResult {
 	name: string;
 	url: string;
 }
+
+export type fetchLike = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
 
 export interface PaginationMeta {
 	page: number;
@@ -18,6 +23,8 @@ export type PokeAPIResponse = {
 	previous: string | null;
 };
 
+export type PokemonTypeName = keyof typeof POKEMON_TYPE_COLORS;
+
 export interface PokemonDetailResponse extends PokemonListResult {
 	id: number;
 	sprites: {
@@ -27,4 +34,6 @@ export interface PokemonDetailResponse extends PokemonListResult {
 			};
 		};
 	};
+	types: PokemonType[];
+	stats: PokemonStat[];
 }
