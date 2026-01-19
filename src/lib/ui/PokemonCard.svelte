@@ -45,6 +45,7 @@
 	</div>
 
 	<img
+		class="avatar"
 		style="--img-size: 222px"
 		src={pokemon.imageUrl}
 		alt={pokemon.name}
@@ -74,7 +75,7 @@
 	.stats {
 		font-size: 1rem;
 		font-weight: bold;
-		color: gray;
+		color: oklch(0.663 0 89.876);
 	}
 
 	.card {
@@ -99,11 +100,9 @@
 		}
 	}
 
-	img {
-		width: 100%;
-		height: 100%;
-		max-width: var(--img-size);
-		max-height: var(--img-size);
+	.avatar {
+		width: min(var(--img-size), 100%);
+		height: auto;
 		aspect-ratio: 1 / 1;
 		object-fit: contain;
 		align-self: center;
@@ -116,7 +115,7 @@
 		gap: 0.5rem;
 
 		.mono {
-			font-size: 1rem;
+			font-size: 0.90rem;
 			color: gray;
 			font-family:
 				'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas,
