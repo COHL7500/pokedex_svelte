@@ -6,6 +6,8 @@ interface PokemonListResult {
 	url: string;
 }
 
+export type fetchLike = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+
 export interface PaginationMeta {
 	page: number;
 	totalPages: number;
