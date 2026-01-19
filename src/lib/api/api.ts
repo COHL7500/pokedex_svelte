@@ -1,8 +1,13 @@
-import type { PokemonDetailResponse } from '$lib/api/types';
+import type {fetchLike, PokemonDetailResponse} from '$lib/api/types';
 import type { Pokemon } from '$lib/types';
 
-export const fetchPokemonDetail = async (detailUrl: string) => {
-	const res = await fetch(detailUrl);
+interface fetchPokemonDetailParams {
+	detailUrl: string;
+	fetchFn: fetchLike;
+}
+
+export const fetchPokemonDetail = async ({ detailUrl, fetchFn }: fetchPokemonDetailParams) => {
+	const res = await fetchFn(detailUrl);
 
 	if (!res.ok) {
 		throw new Error('Failed to fetch Pokémon details');
