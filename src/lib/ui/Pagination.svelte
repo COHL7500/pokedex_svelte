@@ -78,7 +78,7 @@
 			padding: 0.5rem 1rem;
 			font-size: 1rem;
 			border: 1px solid lightgray;
-			border-radius: 5px;
+			border-radius: var(--border-radius);
 			cursor: pointer;
 			color: white;
 			background-color: #02346f;
@@ -93,7 +93,7 @@
 			padding: 0.5rem 1rem;
 			font-size: 1rem;
 			border: none;
-			border-radius: 5px;
+			border-radius: var(--border-radius);
 			background-color: #02346f;
 			color: white;
 			cursor: pointer;
