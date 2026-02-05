@@ -8,7 +8,13 @@
         label?: string;
     }
 
-    let { onchange, className, options, label, value = $bindable() }: SelectProps<string | number> = $props();
+    let {
+        onchange,
+        className,
+        options,
+        label,
+        value = $bindable()
+    }: SelectProps<string | number> = $props();
 
 
 </script>

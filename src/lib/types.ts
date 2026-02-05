@@ -22,5 +22,4 @@ export type Pokemon = {
 	types: PokemonType[];
 	total_base_stat: number;
 	stats: PokemonStat[];
-
 };

@@ -1,6 +1,6 @@
 import type { Pokemon } from '$lib/types';
 import { fetchPokemonDetail, toPokemon } from '$lib/api/api';
-import type { PaginationMeta, PokeAPIResponse } from '$lib/api/types';
+import type {PaginationMeta, PokeAPIResponse, SortMeta} from '$lib/api/types';
 import {
 	API_BASE_URL,
 	DEFAULT_LIMIT,
@@ -11,6 +11,11 @@ import { stringToInt } from '$lib/utils';
 interface LoadResponse {
 	pokemons: Pokemon[];
 	meta: PaginationMeta;
+}
+
+const DEFAULT_SORT_META: SortMeta = {
+    sort: 'id',
+    order: 'asc'
 }
 
 export const load = async ({ fetch, url }): Promise<LoadResponse> => {
@@ -40,7 +45,8 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 					totalPages: 1,
 					nextPage: null,
 					prevPage: null,
-					totalCount: 0
+					totalCount: 0,
+                    sort: DEFAULT_SORT_META,
 				}
 			};
 		}
@@ -56,7 +62,8 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 				totalPages: 1,
 				nextPage: null,
 				prevPage: null,
-				totalCount: json.count
+				totalCount: json.count,
+                sort: DEFAULT_SORT_META,
 			}
 		};
 	}
@@ -89,7 +96,8 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 			totalPages,
 			nextPage: page < totalPages ? page + 1 : null,
 			prevPage: page > 1 ? page - 1 : null,
-			totalCount: json.count
+			totalCount: json.count,
+            sort: DEFAULT_SORT_META
 		}
 	};
 };

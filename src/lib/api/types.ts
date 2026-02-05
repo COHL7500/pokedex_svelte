@@ -6,7 +6,15 @@ interface PokemonListResult {
 	url: string;
 }
 
-export type fetchLike = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+export type FetchLike = (input: RequestInfo, init?: RequestInit) => Promise<Response>;
+
+export type SortBy =  'id' | 'name' | 'total_base_stat';
+export type SortOrder = 'asc' | 'desc';
+export type SortMeta = {
+    sort: SortBy;
+    order: SortOrder;
+}
+
 
 export interface PaginationMeta {
 	page: number;
@@ -14,6 +22,7 @@ export interface PaginationMeta {
 	nextPage: number | null;
 	prevPage: number | null;
 	totalCount: number;
+    sort: SortMeta;
 }
 
 export type PokeAPIResponse = {

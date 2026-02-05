@@ -1,9 +1,9 @@
-import type {fetchLike, PokemonDetailResponse} from '$lib/api/types';
+import type {FetchLike, PokemonDetailResponse} from '$lib/api/types';
 import type { Pokemon } from '$lib/types';
 
 interface fetchPokemonDetailParams {
 	detailUrl: string;
-	fetchFn: fetchLike;
+	fetchFn: FetchLike;
 }
 
 export const fetchPokemonDetail = async ({ detailUrl, fetchFn }: fetchPokemonDetailParams) => {
