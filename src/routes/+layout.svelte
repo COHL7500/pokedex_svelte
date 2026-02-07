@@ -21,7 +21,7 @@
 <style>
 	:global(:root) {
 		--page-max-width: 80em;
-        --border-radius: 5px;
+		--border-radius: 5px;
 	}
 
 	:global(html, body) {

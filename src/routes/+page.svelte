@@ -41,7 +41,7 @@
 		<div class="search-container">
 			<SearchInput bind:query />
 		</div>
-        <button class="sort-btn">Sort by</button>
+		<button class="sort-btn">Sort by</button>
 		<p>Total count: {data.meta.totalCount}</p>
 	</div>
 
@@ -59,8 +59,8 @@
 	.toolbar {
 		display: flex;
 		gap: 1rem;
-        margin-bottom: 1rem;
-        align-items: center;
+		margin-bottom: 1rem;
+		align-items: center;
 
 		@media (max-width: 16em) {
 			justify-content: center;

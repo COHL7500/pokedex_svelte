@@ -1,6 +1,6 @@
 import type { Pokemon } from '$lib/types';
 import { fetchPokemonDetail, toPokemon } from '$lib/api/api';
-import type {PaginationMeta, PokeAPIResponse, SortMeta} from '$lib/api/types';
+import type { PaginationMeta, PokeAPIResponse, SortMeta } from '$lib/api/types';
 import {
 	API_BASE_URL,
 	DEFAULT_LIMIT,
@@ -14,9 +14,9 @@ interface LoadResponse {
 }
 
 const DEFAULT_SORT_META: SortMeta = {
-    sort: 'id',
-    order: 'asc'
-}
+	sort: 'id',
+	order: 'asc'
+};
 
 export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 	const sp = url.searchParams;
@@ -46,7 +46,7 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 					nextPage: null,
 					prevPage: null,
 					totalCount: 0,
-                    sort: DEFAULT_SORT_META,
+					sort: DEFAULT_SORT_META
 				}
 			};
 		}
@@ -63,7 +63,7 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 				nextPage: null,
 				prevPage: null,
 				totalCount: json.count,
-                sort: DEFAULT_SORT_META,
+				sort: DEFAULT_SORT_META
 			}
 		};
 	}
@@ -83,7 +83,9 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 
 	const pokemons: Pokemon[] = await Promise.all(
 		json.results.map(async (pokemon) =>
-			toPokemon(await fetchPokemonDetail({ detailUrl: pokemon.url, fetchFn: fetch }))
+			toPokemon(
+				await fetchPokemonDetail({ detailUrl: pokemon.url, fetchFn: fetch })
+			)
 		)
 	);
 
@@ -97,7 +99,7 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 			nextPage: page < totalPages ? page + 1 : null,
 			prevPage: page > 1 ? page - 1 : null,
 			totalCount: json.count,
-            sort: DEFAULT_SORT_META
+			sort: DEFAULT_SORT_META
 		}
 	};
 };

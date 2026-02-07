@@ -63,8 +63,8 @@
 		.type-badge {
 			padding: 0.35rem 0.75rem;
 			border-radius: 8px;
-			border: 1px solid rgba(0,0,0,.2);
-			text-shadow: 1px 1px 2px rgba(0,0,0,.5);
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 			font-size: 0.875rem;
 			color: white;
 			text-transform: capitalize;
@@ -115,7 +115,7 @@
 		gap: 0.5rem;
 
 		.mono {
-			font-size: 0.90rem;
+			font-size: 0.9rem;
 			color: gray;
 			font-family:
 				'ui-monospace', SFMono-Regular, Menlo, Monaco, Consolas,

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type {Snippet} from "svelte";
-    interface GridProps {
-        children: Snippet;
-    }
+	import type { Snippet } from 'svelte';
+	interface GridProps {
+		children: Snippet;
+	}
 
 	const { children }: GridProps = $props();
 </script>
