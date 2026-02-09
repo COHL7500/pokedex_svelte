@@ -1,4 +1,8 @@
-import type { FetchLike, PokemonDetailResponse } from '$lib/api/types';
+import type {
+	FetchLike,
+	PokemonDetailResponse,
+	SortMeta
+} from '$lib/api/types';
 import type { Pokemon } from '$lib/types';
 
 interface fetchPokemonDetailParams {
@@ -35,4 +39,29 @@ export const toPokemon = (detail: PokemonDetailResponse): Pokemon => {
 	};
 
 	return result;
+};
+
+interface SortPokemonProps {
+	pokemons: Pokemon[];
+	sortMeta: SortMeta;
+}
+
+export const sortPokemons = ({ pokemons, sortMeta }: SortPokemonProps) => {
+	const { sort, order } = sortMeta;
+
+	const compare = (a: Pokemon, b: Pokemon): number => {
+		switch (sort) {
+			case 'id':
+				return a.id - b.id;
+			case 'name':
+				return a.name.localeCompare(b.name);
+			case 'total_base_stat':
+				return a.total_base_stat - b.total_base_stat;
+			default:
+				return 0;
+		}
+	};
+
+	const sorted = pokemons.toSorted(compare);
+	return order === 'asc' ? sorted : sorted.reverse();
 };

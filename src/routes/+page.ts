@@ -20,16 +20,12 @@ const DEFAULT_SORT_META: SortMeta = {
 
 export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 	const sp = url.searchParams;
-
 	const page = Math.max(
 		1,
 		stringToInt({ value: sp.get('p'), fallback: DEFAULT_PAGE_NUMBER })
 	);
-
 	const limit = DEFAULT_LIMIT;
-
 	const offset = (page - 1) * limit;
-
 	const query = url.searchParams.get('q')?.trim().toLowerCase() ?? '';
 
 	if (query) {
