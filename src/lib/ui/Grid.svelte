@@ -1,5 +1,10 @@
 <script lang="ts">
-	const { children } = $props();
+	import type { Snippet } from 'svelte';
+	interface GridProps {
+		children: Snippet;
+	}
+
+	const { children }: GridProps = $props();
 </script>
 
 <ul class="grid">

@@ -4,6 +4,7 @@
 	import { SvelteURLSearchParams } from 'svelte/reactivity';
 	import { page } from '$app/state';
 	import type { PaginationMeta } from '$lib/api/types';
+	import Select from '$lib/ui/Select.svelte';
 
 	interface PaginationProps {
 		meta: PaginationMeta;
@@ -40,13 +41,13 @@
 		Previous
 	</button>
 
-	<select onchange={onPageSelect}>
-		{#each pages as page (page)}
-			<option value={page} selected={meta.page === page}>
-				Page {page}
-			</option>
-		{/each}
-	</select>
+	<Select
+		className="page-select"
+		options={pages}
+		value={meta.page}
+		label="Page"
+		onchange={onPageSelect}
+	/>
 
 	<button
 		disabled={meta.nextPage == null}
@@ -74,26 +75,11 @@
 		background: rgba(255, 255, 255);
 		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 
-		select {
-			padding: 0.5rem 1rem;
-			font-size: 1rem;
-			border: 1px solid lightgray;
-			border-radius: 5px;
-			cursor: pointer;
-			color: white;
-			background-color: #02346f;
-			text-align: center;
-
-			-webkit-appearance: none;
-			-moz-appearance: none;
-			appearance: none;
-		}
-
 		button {
 			padding: 0.5rem 1rem;
 			font-size: 1rem;
 			border: none;
-			border-radius: 5px;
+			border-radius: var(--border-radius);
 			background-color: #02346f;
 			color: white;
 			cursor: pointer;
