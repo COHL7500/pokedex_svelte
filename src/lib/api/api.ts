@@ -1,9 +1,6 @@
-import type {
-	FetchLike,
-	PokemonDetailResponse,
-	SortMeta
-} from '$lib/api/types';
+import type {FetchLike, PokemonDetailResponse, SortMeta} from '$lib/api/types';
 import type { Pokemon } from '$lib/types';
+import {getPrimaryTypeName} from "$lib/utils";
 
 interface fetchPokemonDetailParams {
 	detailUrl: string;
@@ -42,26 +39,45 @@ export const toPokemon = (detail: PokemonDetailResponse): Pokemon => {
 };
 
 interface SortPokemonProps {
-	pokemons: Pokemon[];
-	sortMeta: SortMeta;
+    pokemons: Pokemon[];
+    sortMeta: SortMeta;
 }
 
 export const sortPokemons = ({ pokemons, sortMeta }: SortPokemonProps) => {
-	const { sort, order } = sortMeta;
+    const direction = sortMeta.order === 'asc' ? 1 : -1;
 
-	const compare = (a: Pokemon, b: Pokemon): number => {
-		switch (sort) {
-			case 'id':
-				return a.id - b.id;
-			case 'name':
-				return a.name.localeCompare(b.name);
-			case 'total_base_stat':
-				return a.total_base_stat - b.total_base_stat;
-			default:
-				return 0;
-		}
-	};
+    const result = [...pokemons].sort((a, b) => {
+        switch (sortMeta.sort) {
+            case 'id': return direction * (a.id - b.id);
 
-	const sorted = pokemons.toSorted(compare);
-	return order === 'asc' ? sorted : sorted.reverse();
-};
+            case 'name': {
+                const cmp = a.name.localeCompare(b.name);
+                const result = cmp !== 0 ? direction * cmp : a.id - b.id;
+
+                return result;
+            }
+
+            case 'total_base_stat': {
+                const cmp = a.total_base_stat - b.total_base_stat;
+                const result = cmp !== 0 ? direction * cmp : a.id - b.id;
+
+                return result;
+            }
+
+            case 'type': {
+                const aType = getPrimaryTypeName(a);
+                const bType = getPrimaryTypeName(b);
+
+                if (aType === null || bType === null) return 0;
+
+                const cmp = aType.localeCompare(bType);
+                if (cmp !== 0) return direction * cmp;
+                return 0;
+            }
+
+            default: return 0;
+        }
+    })
+
+    return result;
+}

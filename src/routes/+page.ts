@@ -1,12 +1,12 @@
 import type { Pokemon } from '$lib/types';
-import { fetchPokemonDetail, toPokemon } from '$lib/api/api';
+import {fetchPokemonDetail, sortPokemons, toPokemon} from '$lib/api/api';
 import type { PaginationMeta, PokeAPIResponse, SortMeta } from '$lib/api/types';
 import {
 	API_BASE_URL,
 	DEFAULT_LIMIT,
 	DEFAULT_PAGE_NUMBER
 } from '$lib/api/constants';
-import { stringToInt } from '$lib/utils';
+import {isSortBy, isSortOrder, stringToInt} from '$lib/utils';
 
 interface LoadResponse {
 	pokemons: Pokemon[];
@@ -20,12 +20,23 @@ const DEFAULT_SORT_META: SortMeta = {
 
 export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 	const sp = url.searchParams;
+
 	const page = Math.max(
 		1,
 		stringToInt({ value: sp.get('p'), fallback: DEFAULT_PAGE_NUMBER })
 	);
+
+    const sortParam = sp.get('sort');
+    const orderParam = sp.get('order');
+
+    const sort = isSortBy(sortParam) ? sortParam : DEFAULT_SORT_META.sort;
+
+    const order = isSortOrder(orderParam) ? orderParam : DEFAULT_SORT_META.order;
+
 	const limit = DEFAULT_LIMIT;
+
 	const offset = (page - 1) * limit;
+
 	const query = url.searchParams.get('q')?.trim().toLowerCase() ?? '';
 
 	if (query) {
@@ -42,7 +53,7 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 					nextPage: null,
 					prevPage: null,
 					totalCount: 0,
-					sort: DEFAULT_SORT_META
+					sort: { sort, order }
 				}
 			};
 		}
@@ -59,7 +70,7 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 				nextPage: null,
 				prevPage: null,
 				totalCount: json.count,
-				sort: DEFAULT_SORT_META
+				sort: { sort, order }
 			}
 		};
 	}
@@ -85,17 +96,19 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 		)
 	);
 
+    const sortedPokemons = sortPokemons({ pokemons, sortMeta: { sort, order }});
+
 	const totalPages = Math.max(1, Math.ceil(json.count / limit));
 
 	return {
-		pokemons,
+		pokemons: sortedPokemons,
 		meta: {
 			page,
 			totalPages,
 			nextPage: page < totalPages ? page + 1 : null,
 			prevPage: page > 1 ? page - 1 : null,
 			totalCount: json.count,
-			sort: DEFAULT_SORT_META
+			sort: { sort, order }
 		}
 	};
 };

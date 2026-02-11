@@ -1,4 +1,4 @@
-import { POKEMON_TYPE_COLORS } from '$lib/api/constants';
+import {POKEMON_TYPE_NAMES} from '$lib/api/constants';
 import type { PokemonStat, PokemonType } from '$lib/types';
 
 interface PokemonListResult {
@@ -11,7 +11,7 @@ export type FetchLike = (
 	init?: RequestInit
 ) => Promise<Response>;
 
-export type SortBy = 'id' | 'name' | 'total_base_stat';
+export type SortBy = 'id' | 'name' | 'total_base_stat' | 'type';
 export type SortOrder = 'asc' | 'desc';
 export type SortMeta = {
 	sort: SortBy;
@@ -34,7 +34,7 @@ export type PokeAPIResponse = {
 	previous: string | null;
 };
 
-export type PokemonTypeName = keyof typeof POKEMON_TYPE_COLORS;
+export type PokemonTypeName = (typeof POKEMON_TYPE_NAMES)[number];
 
 export interface PokemonDetailResponse extends PokemonListResult {
 	id: number;
