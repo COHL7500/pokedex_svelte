@@ -1,6 +1,10 @@
-import type {FetchLike, PokemonDetailResponse, SortMeta} from '$lib/api/types';
+import type {
+	FetchLike,
+	PokemonDetailResponse,
+	SortMeta
+} from '$lib/api/types';
 import type { Pokemon } from '$lib/types';
-import {getPrimaryTypeName} from "$lib/utils";
+import { getPrimaryTypeName } from '$lib/utils';
 
 interface fetchPokemonDetailParams {
 	detailUrl: string;
@@ -39,45 +43,47 @@ export const toPokemon = (detail: PokemonDetailResponse): Pokemon => {
 };
 
 interface SortPokemonProps {
-    pokemons: Pokemon[];
-    sortMeta: SortMeta;
+	pokemons: Pokemon[];
+	sortMeta: SortMeta;
 }
 
 export const sortPokemons = ({ pokemons, sortMeta }: SortPokemonProps) => {
-    const direction = sortMeta.order === 'asc' ? 1 : -1;
+	const direction = sortMeta.order === 'asc' ? 1 : -1;
 
-    const result = [...pokemons].sort((a, b) => {
-        switch (sortMeta.sort) {
-            case 'id': return direction * (a.id - b.id);
+	const result = [...pokemons].sort((a, b) => {
+		switch (sortMeta.sort) {
+			case 'id':
+				return direction * (a.id - b.id);
 
-            case 'name': {
-                const cmp = a.name.localeCompare(b.name);
-                const result = cmp !== 0 ? direction * cmp : a.id - b.id;
+			case 'name': {
+				const cmp = a.name.localeCompare(b.name);
+				const result = cmp !== 0 ? direction * cmp : a.id - b.id;
 
-                return result;
-            }
+				return result;
+			}
 
-            case 'total_base_stat': {
-                const cmp = a.total_base_stat - b.total_base_stat;
-                const result = cmp !== 0 ? direction * cmp : a.id - b.id;
+			case 'total_base_stat': {
+				const cmp = a.total_base_stat - b.total_base_stat;
+				const result = cmp !== 0 ? direction * cmp : a.id - b.id;
 
-                return result;
-            }
+				return result;
+			}
 
-            case 'type': {
-                const aType = getPrimaryTypeName(a);
-                const bType = getPrimaryTypeName(b);
+			case 'type': {
+				const aType = getPrimaryTypeName(a);
+				const bType = getPrimaryTypeName(b);
 
-                if (aType === null || bType === null) return 0;
+				if (aType === null || bType === null) return 0;
 
-                const cmp = aType.localeCompare(bType);
-                if (cmp !== 0) return direction * cmp;
-                return 0;
-            }
+				const cmp = aType.localeCompare(bType);
+				if (cmp !== 0) return direction * cmp;
+				return 0;
+			}
 
-            default: return 0;
-        }
-    })
+			default:
+				return 0;
+		}
+	});
 
-    return result;
-}
+	return result;
+};

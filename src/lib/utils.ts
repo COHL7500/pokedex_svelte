@@ -1,7 +1,7 @@
 import { resolve } from '$app/paths';
-import type {PokemonTypeName, SortBy, SortOrder} from '$lib/api/types';
-import {POKEMON_TYPE_COLORS, POKEMON_TYPE_NAMES} from '$lib/api/constants';
-import type {Pokemon} from "$lib/types";
+import type { PokemonTypeName, SortBy, SortOrder } from '$lib/api/types';
+import { POKEMON_TYPE_COLORS, POKEMON_TYPE_NAMES } from '$lib/api/constants';
+import type { Pokemon } from '$lib/types';
 
 interface ToIntProps {
 	value: string | null;
@@ -21,7 +21,7 @@ export const buildUrl = (sp: URLSearchParams) => {
 };
 
 export const isPokemonTypeName = (value: string): value is PokemonTypeName =>
-    value in POKEMON_TYPE_NAMES;
+	value in POKEMON_TYPE_NAMES;
 
 export const getTypeColor = (typeName: string): string => {
 	const key = typeName.toLowerCase();
@@ -30,13 +30,18 @@ export const getTypeColor = (typeName: string): string => {
 
 	return result;
 };
-export const getPrimaryTypeName = (pokemon: Pokemon): PokemonTypeName | null => {
-    const result = pokemon.types.find((t) => t.slot === 1)?.type.name ?? '';
-    return isPokemonTypeName(result) ? result : null;
-}
+export const getPrimaryTypeName = (
+	pokemon: Pokemon
+): PokemonTypeName | null => {
+	const result = pokemon.types.find((t) => t.slot === 1)?.type.name ?? '';
+	return isPokemonTypeName(result) ? result : null;
+};
 
 export const isSortBy = (value: string | null): value is SortBy =>
-    value === 'id' || value === 'name' || value === 'total_base_stat' || value === 'type';
+	value === 'id' ||
+	value === 'name' ||
+	value === 'total_base_stat' ||
+	value === 'type';
 
 export const isSortOrder = (value: string | null): value is SortOrder =>
-    value === 'asc' || value === 'desc';
+	value === 'asc' || value === 'desc';

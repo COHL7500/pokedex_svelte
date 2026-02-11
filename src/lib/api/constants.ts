@@ -1,4 +1,4 @@
-import type {PokemonTypeName} from "$lib/api/types";
+import type { PokemonTypeName } from '$lib/api/types';
 
 export const API_BASE_URL = 'https://pokeapi.co/api/v2';
 export const DEFAULT_LIMIT = 50;
@@ -6,24 +6,24 @@ export const DEFAULT_PAGE_NUMBER = 1;
 export const POKEDEX_DIGITS = 4;
 
 export const POKEMON_TYPE_NAMES = [
-    'normal',
-    'fire',
-    'water',
-    'electric',
-    'grass',
-    'ice',
-    'fighting',
-    'poison',
-    'ground',
-    'flying',
-    'psychic',
-    'bug',
-    'rock',
-    'ghost',
-    'dragon',
-    'dark',
-    'steel',
-    'fairy'
+	'normal',
+	'fire',
+	'water',
+	'electric',
+	'grass',
+	'ice',
+	'fighting',
+	'poison',
+	'ground',
+	'flying',
+	'psychic',
+	'bug',
+	'rock',
+	'ghost',
+	'dragon',
+	'dark',
+	'steel',
+	'fairy'
 ] as const;
 
 export const POKEMON_TYPE_COLORS = {

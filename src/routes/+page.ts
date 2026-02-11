@@ -1,12 +1,12 @@
 import type { Pokemon } from '$lib/types';
-import {fetchPokemonDetail, sortPokemons, toPokemon} from '$lib/api/api';
+import { fetchPokemonDetail, sortPokemons, toPokemon } from '$lib/api/api';
 import type { PaginationMeta, PokeAPIResponse, SortMeta } from '$lib/api/types';
 import {
 	API_BASE_URL,
 	DEFAULT_LIMIT,
 	DEFAULT_PAGE_NUMBER
 } from '$lib/api/constants';
-import {isSortBy, isSortOrder, stringToInt} from '$lib/utils';
+import { isSortBy, isSortOrder, stringToInt } from '$lib/utils';
 
 interface LoadResponse {
 	pokemons: Pokemon[];
@@ -26,12 +26,12 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 		stringToInt({ value: sp.get('p'), fallback: DEFAULT_PAGE_NUMBER })
 	);
 
-    const sortParam = sp.get('sort');
-    const orderParam = sp.get('order');
+	const sortParam = sp.get('sort');
+	const orderParam = sp.get('order');
 
-    const sort = isSortBy(sortParam) ? sortParam : DEFAULT_SORT_META.sort;
+	const sort = isSortBy(sortParam) ? sortParam : DEFAULT_SORT_META.sort;
 
-    const order = isSortOrder(orderParam) ? orderParam : DEFAULT_SORT_META.order;
+	const order = isSortOrder(orderParam) ? orderParam : DEFAULT_SORT_META.order;
 
 	const limit = DEFAULT_LIMIT;
 
@@ -96,7 +96,7 @@ export const load = async ({ fetch, url }): Promise<LoadResponse> => {
 		)
 	);
 
-    const sortedPokemons = sortPokemons({ pokemons, sortMeta: { sort, order }});
+	const sortedPokemons = sortPokemons({ pokemons, sortMeta: { sort, order } });
 
 	const totalPages = Math.max(1, Math.ceil(json.count / limit));
 

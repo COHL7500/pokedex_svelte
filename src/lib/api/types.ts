@@ -1,4 +1,4 @@
-import {POKEMON_TYPE_NAMES} from '$lib/api/constants';
+import { POKEMON_TYPE_NAMES } from '$lib/api/constants';
 import type { PokemonStat, PokemonType } from '$lib/types';
 
 interface PokemonListResult {
